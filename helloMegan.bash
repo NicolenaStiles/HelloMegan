@@ -23,11 +23,10 @@ do
 		presence=`nmap -sP -n ${phone_ip[$k]} | awk '/MAC Address:/ {print $3}'`
 		if [ "$presence" != "${phone_mac[$k]}" ]
 		then
-			# python pass here
-			echo "pass: ${name[$k]} is not online."
+			`python leds.py ${name[$k]} 0` 
 		else
 			# python pass here
-			echo "pass: ${name[$k]} is online."
+			`python leds.py ${name[$k]} 1`
 		fi
 	else
 		try=0
@@ -40,7 +39,6 @@ do
 			echo "known MAC: ${phone_mac[$k]}"
 			if [ "$iphone_presence" == "${phone_mac[$k]}" ]
 			then
-				echo "in statement."
 				find_flag=1
 				break
 			else
@@ -49,9 +47,9 @@ do
 		done
 		if [ "$find_flag" -eq "1" ]
 		then
-			echo "pass: ${name[$k]} is online."
+			`python leds.py ${name[$k]} 1`
 		else
-			echo "pass: ${name[$k]} is not online."
+			`python leds.py ${name[$k]} 0`
 		fi
 	fi
 	k=$(($k+1))
